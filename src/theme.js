@@ -2,32 +2,22 @@ import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
   palette: {
-    primary: {
-      main: "#e91e63", // soft pink
-    },
-    secondary: {
-      main: "#f8bbd0", // pastel blush
-    },
-    background: {
-      default: "#fff5f8",
-    },
+    primary: { main: "#d81b60" },
+    secondary: { main: "#f8bbd0" },
+    background: { default: "#fff8fb" }
   },
-  shape: {
-    borderRadius: 20,
-  },
+  shape: { borderRadius: 24 },
   typography: {
     fontFamily: "'Poppins', sans-serif",
     h3: {
+      fontFamily: "'Playfair Display', serif",
       fontWeight: 600,
     },
     h4: {
+      fontFamily: "'Playfair Display', serif",
       fontWeight: 600,
     },
-    button: {
-      textTransform: "none",
-      fontWeight: 500,
-    },
-  },
+  }
 });
 
 export default theme;
