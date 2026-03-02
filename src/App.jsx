@@ -9,41 +9,39 @@ import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import MotherDashboard from "./pages/MotherDashboard";
+import AddMotherLog from "./pages/AddMotherLog";
+import { AuthProvider } from "./context/AuthContext";
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Router>
-        <Box 
-          sx={{ 
-            display: "flex", 
-            flexDirection: "column", 
-            minHeight: "100vh",
-            margin: 0,
-            padding: 0,
-          }}
-        >
-          <Navbar />
-          <Box 
-            component="main" 
-            sx={{ 
-              flex: "1 0 auto", // This ensures main content takes available space
-              width: "100%",
+      <AuthProvider>
+        <Router>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              minHeight: "100vh",
             }}
           >
-            <Routes>
-              <Route path="/" element={<Landing />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/mother-dashboard" element={<MotherDashboard />} />
-            </Routes>
+            <Navbar />
+
+            <Box component="main" sx={{ flex: "1 0 auto", width: "100%" }}>
+              <Routes>
+                <Route path="/" element={<Landing />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/mother-dashboard" element={<MotherDashboard />} />
+                <Route path="/mother/add" element={<AddMotherLog />} />
+              </Routes>
+            </Box>
+
+            <Footer />
           </Box>
-          <Footer />
-        </Box>
-      </Router>
+        </Router>
+      </AuthProvider>
     </ThemeProvider>
   );
 }
-
 export default App;

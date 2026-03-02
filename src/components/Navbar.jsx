@@ -2,6 +2,7 @@ import { AppBar, Toolbar, Typography, Button, Box, Avatar } from "@mui/material"
 import { Spa, Favorite } from "@mui/icons-material";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -102,35 +103,19 @@ function Navbar() {
           </Button>
           
           <Button
-            onClick={() => navigate("/mother-dashboard")}
-            sx={{
-              color: location.pathname === "/mother-dashboard" ? "#ff6b95" : "#7a4f6c",
-              borderRadius: 20,
-              px: 2,
-              fontWeight: location.pathname === "/mother-dashboard" ? 600 : 400,
-              "&:hover": {
-                background: "rgba(255,210,230,0.5)",
-              },
-            }}
-          >
-            Dashboard
-          </Button>
-          
-          <Button
             onClick={() => navigate("/login")}
             sx={{
-              color: location.pathname === "/login" ? "#ff6b95" : "#7a4f6c",
-              borderRadius: 20,
-              px: 2,
-              fontWeight: location.pathname === "/login" ? 600 : 400,
-              "&:hover": {
+                color: location.pathname === "/login" ? "#ff6b95" : "#7a4f6c",
+                borderRadius: 20,
+                px: 2,
+                fontWeight: location.pathname === "/login" ? 600 : 400,
+                "&:hover": {
                 background: "rgba(255,210,230,0.5)",
-              },
+                },
             }}
-          >
+            >
             Login
-          </Button>
-          
+            </Button>
           <Button
             variant="contained"
             sx={{

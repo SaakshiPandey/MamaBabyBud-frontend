@@ -537,22 +537,7 @@ function Register() {
               </Typography>
 
               {/* Quick tip */}
-              <Box
-                sx={{
-                  mt: 3,
-                  p: 2,
-                  borderRadius: 4,
-                  background: "rgba(255,210,230,0.3)",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 1,
-                }}
-              >
-                <ChildCare sx={{ color: "#ff9eb5", fontSize: 20 }} />
-                <Typography variant="caption" sx={{ color: "#7a5d6e" }}>
-                  Join 10,000+ moms who trust us with their journey
-                </Typography>
-              </Box>
+              
             </form>
           </Box>
         </Paper>
