@@ -172,7 +172,7 @@ function Landing() {
                 >
                   <Chip
                     icon={<Favorite sx={{ color: "#ff6b95 !important", fontSize: 18 }} />}
-                    label="10,000+ Happy Mothers"
+                    label="Happy Mothers"
                     sx={{
                       borderRadius: 20,
                       background: "rgba(255,255,255,0.6)",
