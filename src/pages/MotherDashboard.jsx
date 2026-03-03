@@ -34,6 +34,7 @@ import {
   ArrowForward,
 } from "@mui/icons-material";
 import API from "../services/api";
+import BabyDashboard from "./BabyDashboard"
 import { AuthContext } from "../context/AuthContext";
 
 function MotherDashboard() {

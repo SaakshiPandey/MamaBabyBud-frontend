@@ -9,7 +9,9 @@ import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import MotherDashboard from "./pages/MotherDashboard";
+import BabyDashboard from "./pages/BabyDashboard";
 import AddMotherLog from "./pages/AddMotherLog";
+import AddBabyLog from "./pages/AddBabyLog";
 import { AuthProvider } from "./context/AuthContext";
 
 function App() {
@@ -34,6 +36,8 @@ function App() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/mother-dashboard" element={<MotherDashboard />} />
                 <Route path="/mother/add" element={<AddMotherLog />} />
+                <Route path="/baby-dashboard" element={<BabyDashboard />} />
+                <Route path="/baby/add" element={<AddBabyLog />} />
               </Routes>
             </Box>
 
