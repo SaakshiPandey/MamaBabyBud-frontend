@@ -145,6 +145,50 @@ function AddBabyLog() {
     { value: "none", label: "None" },
   ];
 
+  // Standardized input styling for all fields
+  const inputStyles = {
+    "& .MuiOutlinedInput-root": {
+      borderRadius: 3,
+      backgroundColor: "#faf5f8",
+      transition: "all 0.2s ease",
+      "&:hover": {
+        backgroundColor: "#fff5f9",
+      },
+      "&.Mui-focused": {
+        backgroundColor: "white",
+        boxShadow: "0 0 0 3px rgba(255,158,181,0.1)",
+      },
+    },
+    "& .MuiInputLabel-root": {
+      color: "#a48b9b",
+      "&.Mui-focused": {
+        color: "#ff9eb5",
+      },
+    },
+  };
+
+  const selectStyles = {
+    "& .MuiOutlinedInput-root": {
+      height: 56,
+      borderRadius: 3,
+      backgroundColor: "#faf5f8",
+      transition: "all 0.2s ease",
+      "&:hover": {
+        backgroundColor: "#fff5f9",
+      },
+      "&.Mui-focused": {
+        backgroundColor: "white",
+        boxShadow: "0 0 0 3px rgba(255,158,181,0.1)",
+      },
+    },
+    "& .MuiInputLabel-root": {
+      color: "#a48b9b",
+      "&.Mui-focused": {
+        color: "#ff9eb5",
+      },
+    },
+  };
+
   return (
     <Box
       sx={{
@@ -266,12 +310,7 @@ function AddBabyLog() {
                   InputLabelProps={{ shrink: true }}
                   onChange={handleChange}
                   required
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      borderRadius: 3,
-                      bgcolor: "white",
-                    },
-                  }}
+                  sx={inputStyles}
                 />
               </Box>
             </CardContent>
@@ -293,7 +332,7 @@ function AddBabyLog() {
           </Typography>
           
           <Grid container spacing={2} sx={{ mb: 4 }}>
-            <Grid item xs={6} md={4}>
+            <Grid item xs={12} sm={6} md={4}>
               <TextField
                 fullWidth
                 label="Weight"
@@ -305,15 +344,10 @@ function AddBabyLog() {
                 InputProps={{ 
                   endAdornment: <InputAdornment position="end">kg</InputAdornment>,
                 }}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: 3,
-                    bgcolor: "#fff5f8",
-                  },
-                }}
+                sx={inputStyles}
               />
             </Grid>
-            <Grid item xs={6} md={4}>
+            <Grid item xs={12} sm={6} md={4}>
               <TextField
                 fullWidth
                 label="Height"
@@ -325,15 +359,10 @@ function AddBabyLog() {
                 InputProps={{ 
                   endAdornment: <InputAdornment position="end">cm</InputAdornment>,
                 }}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: 3,
-                    bgcolor: "#fff5f8",
-                  },
-                }}
+                sx={inputStyles}
               />
             </Grid>
-            <Grid item xs={6} md={4}>
+            <Grid item xs={12} sm={6} md={4}>
               <TextField
                 fullWidth
                 label="Temperature"
@@ -346,12 +375,7 @@ function AddBabyLog() {
                   startAdornment: <DeviceThermostat sx={{ color: "#ff9eb5", mr: 1 }} />,
                   endAdornment: <InputAdornment position="end">°C</InputAdornment>,
                 }}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: 3,
-                    bgcolor: "#fff5f8",
-                  },
-                }}
+                sx={inputStyles}
               />
             </Grid>
           </Grid>
@@ -372,13 +396,9 @@ function AddBabyLog() {
           </Typography>
 
           <Grid container spacing={2} sx={{ mb: 4 }}>
-            <Grid item xs={6} md={4}>
-              <FormControl fullWidth sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: 3,
-                  bgcolor: "#f5f0ff",
-                },
-              }}>
+            <Grid item xs={12} sm={6} md={4}>
+              <FormControl fullWidth 
+              variant="outlined" sx={selectStyles}>
                 <InputLabel>Feeding Type</InputLabel>
                 <Select
                   name="feedingType"
@@ -394,7 +414,7 @@ function AddBabyLog() {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={6} md={4}>
+            <Grid item xs={12} sm={6} md={4}>
               <TextField
                 fullWidth
                 label="Sleep Hours"
@@ -406,15 +426,10 @@ function AddBabyLog() {
                 InputProps={{ 
                   endAdornment: <InputAdornment position="end">hrs</InputAdornment>,
                 }}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: 3,
-                    bgcolor: "#f5f0ff",
-                  },
-                }}
+                sx={inputStyles}
               />
             </Grid>
-            <Grid item xs={6} md={4}>
+            <Grid item xs={12} sm={6} md={4}>
               <TextField
                 fullWidth
                 label="Diaper Count"
@@ -426,12 +441,7 @@ function AddBabyLog() {
                 InputProps={{ 
                   startAdornment: <BabyChangingStation sx={{ color: "#b592d6", mr: 1 }} />,
                 }}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: 3,
-                    bgcolor: "#f5f0ff",
-                  },
-                }}
+                sx={inputStyles}
               />
             </Grid>
           </Grid>
@@ -452,13 +462,8 @@ function AddBabyLog() {
           </Typography>
 
           <Grid container spacing={2} sx={{ mb: 4 }}>
-            <Grid item xs={6} md={4}>
-              <FormControl fullWidth sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: 3,
-                  bgcolor: "#f0f5fa",
-                },
-              }}>
+            <Grid item xs={12} sm={6} md={4}>
+              <FormControl fullWidth variant="outlined" sx={selectStyles}>
                 <InputLabel>Vaccination Given</InputLabel>
                 <Select
                   name="vaccinationGiven"
@@ -474,13 +479,8 @@ function AddBabyLog() {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={6} md={4}>
-              <FormControl fullWidth sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: 3,
-                  bgcolor: "#f0f5fa",
-                },
-              }}>
+            <Grid item xs={12} sm={6} md={4}>
+              <FormControl fullWidth variant="outlined" sx={selectStyles}>
                 <InputLabel>Growth Status</InputLabel>
                 <Select
                   name="growthStatus"
@@ -498,40 +498,41 @@ function AddBabyLog() {
             </Grid>
           </Grid>
 
-          {/* Notes Section - FULL WIDTH */}
-          <Typography 
-            variant="h6" 
-            sx={{ 
-              color: "#a16b8a", 
+          {/* Notes Section */}
+          <Typography
+            variant="h6"
+            sx={{
+              color: "#b47197",
               mb: 2,
-              display: "flex",
-              alignItems: "center",
-              gap: 1,
               fontWeight: 500,
             }}
           >
-            <FavoriteBorder sx={{ color: "#7a9ec2" }} /> Notes
+            <FavoriteBorder
+              sx={{
+                color: "#7a9ec2",
+                mr: 1,
+                verticalAlign: "middle",
+              }}
+            />
+            Notes
           </Typography>
 
-          <Grid container spacing={2} sx={{ mb: 4 }}>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                multiline
-                rows={4}
-                name="notes"
-                value={formData.notes}
-                onChange={handleChange}
-                placeholder="Any additional notes about baby's health, behavior, or milestones..."
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: 3,
-                    bgcolor: "#f0f5fa",
-                  },
-                }}
-              />
-            </Grid>
-          </Grid>
+          <TextField
+          fullWidth
+          multiline
+          rows={4}
+          name="notes"
+          value={formData.notes}
+          onChange={handleChange}
+          placeholder="Any additional notes about baby's health, behavior, or milestones..."
+          variant="outlined"
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              backgroundColor: "#EFE9F0",   // 👈 Add background
+              borderRadius: 3,
+            },
+          }}
+        />
 
           <Divider sx={{ my: 4, borderColor: "#f5e4ed" }} />
 
