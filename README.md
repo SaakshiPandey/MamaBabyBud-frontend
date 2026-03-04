@@ -1,18 +1,220 @@
-# React + Vite
+# 👶 MamaBabyBud – Maternal & Baby Care Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+MamaBabyBud is a **full-stack healthcare management platform built using the MERN stack (MongoDB, Express.js, React, Node.js)** that helps caregivers and healthcare providers monitor **maternal health and infant development** through an intuitive dashboard and analytics system.
 
-Currently, two official plugins are available:
+The platform enables efficient **tracking of baby growth, maternal records, medical history, and health insights** using interactive charts and a modern UI.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🚀 Features
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+* 👶 **Baby Health Tracking**
+  Monitor baby weight, height, and overall growth progress.
 
-Note: This will impact Vite dev & build performances.
+* 🤰 **Maternal Health Monitoring**
+  Manage maternal health records and pregnancy updates.
 
-## Expanding the ESLint configuration
+* 📊 **Interactive Dashboards**
+  Visualize health data using charts and analytics.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+* 🔐 **Authentication & Authorization**
+  Secure login and user session management.
+
+* 📁 **Medical Record Management**
+  Store and manage baby and maternal health data.
+
+* 📈 **Growth Analytics**
+  Analyze trends using graphical insights.
+
+* 💻 **Responsive UI**
+  Modern and clean interface built with Material UI.
+
+---
+
+## 🛠 Tech Stack
+
+### Frontend
+
+* React (Vite)
+* Material UI
+* Chart.js
+* React Router
+
+### Backend
+
+* Node.js
+* Express.js
+
+### Database
+
+* MongoDB
+
+### Deployment
+
+* Render / Cloud Platforms
+
+---
+
+## 📂 Project Structure
+
+```
+mamababybud/
+│
+├── backend/
+│   ├── controllers
+│   ├── routes
+│   ├── models
+│   ├── middleware
+│   └── server.js
+│
+├── frontend/
+│   ├── src
+│   │   ├── components
+│   │   ├── pages
+│   │   ├── contexts
+│   │   ├── services
+│   │   └── App.jsx
+│   │
+│   └── package.json
+│
+└── README.md
+```
+
+---
+
+## ⚙️ Installation
+
+### 1️⃣ Clone the Repository
+
+```bash
+git clone https://github.com/yourusername/mamababybud.git
+cd mamababybud
+```
+
+---
+
+### 2️⃣ Install Backend Dependencies
+
+```bash
+cd backend
+npm install
+```
+
+---
+
+### 3️⃣ Install Frontend Dependencies
+
+```bash
+cd frontend
+npm install
+```
+
+---
+
+### 4️⃣ Configure Environment Variables
+
+Create a `.env` file inside the **backend folder**
+
+```
+PORT=5000
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_secret_key
+```
+
+---
+
+### 5️⃣ Run the Application
+
+Run backend:
+
+```bash
+cd backend
+npm start
+```
+
+Run frontend:
+
+```bash
+cd frontend
+npm run dev
+```
+
+---
+
+## 📊 Dashboard Features
+
+The dashboard provides:
+
+* Baby growth visualization
+* Maternal health insights
+* Health alerts and notifications
+* Data analytics with charts
+* Record management system
+
+---
+
+## 🔒 Authentication
+
+The application uses:
+
+* JWT-based authentication
+* Secure login and registration
+* Protected routes
+
+---
+
+
+## 🌱 Future Improvements
+
+* AI-based health recommendations
+* Vaccination tracking system
+* Doctor appointment scheduling
+* Mobile application version
+* Exportable medical reports
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome!
+
+1. Fork the repository
+2. Create a new branch
+
+```bash
+git checkout -b feature-name
+```
+
+3. Commit your changes
+
+```bash
+git commit -m "Added new feature"
+```
+
+4. Push to the branch
+
+```bash
+git push origin feature-name
+```
+
+5. Open a Pull Request
+
+---
+
+## 📜 License
+
+This project is licensed under the **MIT License**.
+
+---
+
+## 👩‍💻 Author
+
+Developed by **Saakshi Pandey**
+
+If you like this project, consider giving it a ⭐ on GitHub!
+
+---
+
+## ⭐ Support
+
+If you found this project helpful, please give it a **star ⭐** to support the project.
