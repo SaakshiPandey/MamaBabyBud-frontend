@@ -1,37 +1,35 @@
-import { useEffect, useState, useContext } from "react";
 import {
-  Box,
-  Typography,
-  Grid,
-  Paper,
-  Avatar,
-  Chip,
-  Fade,
-  Button,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Checkbox,
-  Divider,
-  LinearProgress,
-} from "@mui/material";
-import { 
-  ChildCare, 
-  MonitorHeart, 
-  Vaccines, 
-  TrendingUp,
   BabyChangingStation,
+  CheckCircle,
+  ChildCare,
+  EventAvailable,
   Restaurant,
+  Scale,
   ShowChart,
   Straighten,
-  Scale,
-  EventAvailable,
-  CheckCircle,
+  Vaccines
 } from "@mui/icons-material";
+import {
+  Avatar,
+  Box,
+  Button,
+  Checkbox,
+  Chip,
+  Divider,
+  Fade,
+  FormControl,
+  Grid,
+  InputLabel,
+  LinearProgress,
+  MenuItem,
+  Paper,
+  Select,
+  Typography,
+} from "@mui/material";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import API from "../services/api";
 import { AuthContext } from "../context/AuthContext";
+import API from "../services/api";
 
 function BabyDashboard() {
   const { user } = useContext(AuthContext);
@@ -44,17 +42,12 @@ function BabyDashboard() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchLogs();
-  }, []);
-
-  useEffect(() => {
     localStorage.setItem('takenVaccines', JSON.stringify(takenVaccines));
   }, [takenVaccines]);
 
   const fetchLogs = async () => {
     try {
-      const { data } = await API.get("/baby");
-      // Sort logs by date (oldest to newest)
+      const { data } = await API.get("/api/baby");
       const sortedLogs = data.sort((a, b) => new Date(a.date) - new Date(b.date));
       setLogs(sortedLogs);
     } catch (err) {
@@ -62,21 +55,53 @@ function BabyDashboard() {
     }
   };
 
+  useEffect(() => {
+    fetchLogs();
+  }, []);
+
   const latestLog = logs.length > 0 ? logs[logs.length - 1] : null;
 
-  const softBlob = (color, left, top, size = "400px") => ({
-    position: "absolute",
-    width: size,
-    height: size,
-    background: `radial-gradient(circle at 30% 30%, ${color} 0%, ${color}80 70%, transparent 100%)`,
-    borderRadius: "60% 40% 50% 50% / 40% 50% 60% 50%",
-    filter: "blur(100px)",
-    left,
-    top,
-    opacity: 0.4,
-    animation: "pulse 8s infinite ease-in-out",
-    zIndex: 0,
-  });
+  const calculateOverallGrowth = () => {
+    if (logs.length < 2) return null;
+    
+    const firstLog = logs[0];
+    const lastLog = logs[logs.length - 1];
+    const daysDiff = (new Date(lastLog.date) - new Date(firstLog.date)) / (1000 * 60 * 60 * 24);
+    const monthsDiff = daysDiff / 30;
+    
+    const weightGain = lastLog.weight && firstLog.weight 
+      ? ((lastLog.weight - firstLog.weight) / monthsDiff).toFixed(2)
+      : null;
+    
+    const heightGain = lastLog.height && firstLog.height
+      ? ((lastLog.height - firstLog.height) / monthsDiff).toFixed(2)
+      : null;
+    
+    const avgDailyWeightGain = lastLog.weight && firstLog.weight
+      ? ((lastLog.weight - firstLog.weight) / daysDiff).toFixed(3)
+      : null;
+    
+    const avgDailyHeightGain = lastLog.height && firstLog.height
+      ? ((lastLog.height - firstLog.height) / daysDiff).toFixed(2)
+      : null;
+    
+    return {
+      totalDays: daysDiff.toFixed(0),
+      totalMonths: monthsDiff.toFixed(1),
+      totalWeightGain: (lastLog.weight - firstLog.weight)?.toFixed(2),
+      totalHeightGain: (lastLog.height - firstLog.height)?.toFixed(1),
+      monthlyWeightGain: weightGain,
+      monthlyHeightGain: heightGain,
+      dailyWeightGain: avgDailyWeightGain,
+      dailyHeightGain: avgDailyHeightGain,
+      startWeight: firstLog.weight,
+      currentWeight: lastLog.weight,
+      startHeight: firstLog.height,
+      currentHeight: lastLog.height,
+    };
+  };
+
+  const overallGrowth = calculateOverallGrowth();
 
   const VACCINE_SCHEDULE = [
     { id: 1, name: "BCG", dueMonths: 0, description: "At birth" },
@@ -111,20 +136,17 @@ function BabyDashboard() {
     );
   };
 
-  // Calculate vaccines based on selected age
   const vaccinesDueByAge = VACCINE_SCHEDULE.filter(
     (v) => v.dueMonths <= selectedAgeMonths
   );
 
   const completedVaccines = vaccinesDueByAge.filter(v => takenVaccines.includes(v.id));
   
-  // Get upcoming vaccines (next 5 after current age)
   const upcomingVaccines = VACCINE_SCHEDULE
     .filter(v => v.dueMonths > selectedAgeMonths)
     .sort((a, b) => a.dueMonths - b.dueMonths)
     .slice(0, 5);
 
-  // Age options (0-60 months)
   const ageOptions = Array.from({ length: 61 }, (_, i) => ({
     value: i,
     label: i < 12 
@@ -132,15 +154,12 @@ function BabyDashboard() {
       : `${Math.floor(i/12)} year${Math.floor(i/12) !== 1 ? 's' : ''} ${i%12 > 0 ? `${i%12} month${i%12 !== 1 ? 's' : ''}` : ''}`
   }));
 
-  // Calculate progress percentage
   const progressPercentage = vaccinesDueByAge.length > 0 
     ? (completedVaccines.length / vaccinesDueByAge.length) * 100 
     : 0;
 
-  // Get last 7 days of logs for weekly view
   const last7DaysLogs = logs.slice(-7).reverse();
 
-  // Helper functions for stats
   const calculateAvgGain = (metric) => {
     if (logs.length < 2) return '—';
     const first = logs[0][metric];
@@ -160,6 +179,20 @@ function BabyDashboard() {
     return avg.toFixed(1);
   };
 
+  const softBlob = (color, left, top, size = "400px") => ({
+    position: "absolute",
+    width: size,
+    height: size,
+    background: `radial-gradient(circle at 30% 30%, ${color} 0%, ${color}80 70%, transparent 100%)`,
+    borderRadius: "60% 40% 50% 50% / 40% 50% 60% 50%",
+    filter: "blur(100px)",
+    left,
+    top,
+    opacity: 0.4,
+    animation: "pulse 8s infinite ease-in-out",
+    zIndex: 0,
+  });
+
   return (
     <Box
       sx={{
@@ -173,20 +206,17 @@ function BabyDashboard() {
         px: { xs: 2, md: 4 },
       }}
     >
-      {/* Floating Blobs */}
       <Box sx={softBlob("#fec8d8", "-150px", "-100px", "500px")} />
       <Box sx={softBlob("#d4b7e8", "70%", "-50px", "450px")} />
       <Box sx={softBlob("#b5d0e8", "20%", "70%", "550px")} />
       
-      {/* Floating Elements */}
       <Box sx={floatingElement("👶", "5%", "15%", "4s")} />
       <Box sx={floatingElement("🍼", "90%", "25%", "5s")} />
       <Box sx={floatingElement("🧸", "10%", "80%", "6s")} />
       <Box sx={floatingElement("🌸", "85%", "70%", "4.5s")} />
 
-      <Box sx={{ maxWidth: "1200px", mx: "auto", position: "relative", zIndex: 1 }}>
+      <Box sx={{ maxWidth: "1400px", mx: "auto", position: "relative", zIndex: 1 }}>
         
-        {/* Header */}
         <Fade in timeout={800}>
           <Box sx={{ mb: 4, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 2 }}>
             <Box>
@@ -207,7 +237,6 @@ function BabyDashboard() {
               </Typography>
             </Box>
 
-            {/* Age Dropdown */}
             <FormControl sx={{ minWidth: 250, bgcolor: "white", borderRadius: 3 }}>
               <InputLabel sx={{ color: "#ac4e7a" }}>Baby's Age</InputLabel>
               <Select
@@ -226,7 +255,7 @@ function BabyDashboard() {
           </Box>
         </Fade>
 
-        {/* Stats Cards - Centrally aligned with reduced border radius */}
+        {/* Stats Cards */}
         <Fade in timeout={1000}>
           <Grid container spacing={3} sx={{ mb: 5 }}>
             <Grid size={{ xs: 6, sm: 4, md: 2.4 }}>
@@ -237,7 +266,6 @@ function BabyDashboard() {
                 value={latestLog?.weight ? `${latestLog.weight} kg` : "—"}
               />
             </Grid>
-
             <Grid size={{ xs: 6, sm: 4, md: 2.4 }}>
               <GlassCard
                 icon={<Straighten />}
@@ -246,7 +274,6 @@ function BabyDashboard() {
                 value={latestLog?.height ? `${latestLog.height} cm` : "—"}
               />
             </Grid>
-
             <Grid size={{ xs: 6, sm: 4, md: 2.4 }}>
               <GlassCard
                 icon={<ChildCare />}
@@ -255,7 +282,6 @@ function BabyDashboard() {
                 value={latestLog?.sleepHours ? `${latestLog.sleepHours}h` : "—"}
               />
             </Grid>
-
             <Grid size={{ xs: 6, sm: 4, md: 2.4 }}>
               <GlassCard
                 icon={<BabyChangingStation />}
@@ -264,7 +290,6 @@ function BabyDashboard() {
                 value={latestLog?.diaperCount ? `${latestLog.diaperCount}` : "—"}
               />
             </Grid>
-
             <Grid size={{ xs: 6, sm: 4, md: 2.4 }}>
               <GlassCard
                 icon={<Restaurant />}
@@ -276,7 +301,7 @@ function BabyDashboard() {
           </Grid>
         </Fade>
         
-        {/* Vaccination Timeline Section - Reduced border radius */}
+        {/* Vaccination Timeline Section */}
         <Fade in timeout={1200}>
           <Paper
             elevation={0}
@@ -285,7 +310,7 @@ function BabyDashboard() {
               mx: "auto",
               mb: 5,
               p: 4,
-              borderRadius: 2, // Reduced from 4 to 2
+              borderRadius: 2,
               bgcolor: "rgba(255,255,255,0.6)",
               backdropFilter: "blur(10px)",
               border: "1px solid rgba(255,158,181,0.2)",
@@ -306,13 +331,11 @@ function BabyDashboard() {
             </Typography>
 
             <Grid container spacing={4}>
-              {/* Left Column - Vaccines by Age */}
               <Grid size={{ xs: 12, md: 5 }}>
                 <Paper sx={{ p: 2, bgcolor: "white", borderRadius: 2, height: "100%" }}>
                   <Typography sx={{ color: "#ac4e7a", mb: 2, fontWeight: 600 }}>
                     Vaccines by Age ({selectedAgeMonths} months)
                   </Typography>
-
                   <Box sx={{ maxHeight: 350, overflow: "auto", pr: 1 }}>
                     {vaccinesDueByAge.length > 0 ? (
                       vaccinesDueByAge.map((vaccine) => (
@@ -376,16 +399,13 @@ function BabyDashboard() {
                 </Paper>
               </Grid>
 
-              {/* Right Column */}
               <Grid size={{ xs: 12, md: 7 }}>
                 <Grid container spacing={2} direction="column">
-                  {/* Top 5 Upcoming Vaccines */}
                   <Grid size={{ xs: 12 }}>
                     <Paper sx={{ p: 2, bgcolor: "white", borderRadius: 2 }}>
                       <Typography sx={{ color: "#ac4e7a", mb: 2, fontWeight: 600, display: "flex", alignItems: "center", gap: 1 }}>
                         <EventAvailable sx={{ color: "#ff9eb5" }} /> Top 5 Upcoming Vaccines
                       </Typography>
-
                       <Box>
                         {upcomingVaccines.length > 0 ? (
                           upcomingVaccines.map((vaccine, index) => (
@@ -417,7 +437,6 @@ function BabyDashboard() {
                     </Paper>
                   </Grid>
 
-                  {/* Completed Vaccines Summary */}
                   <Grid size={{ xs: 12 }}>
                     <Paper sx={{ p: 2, bgcolor: "white", borderRadius: 2 }}>
                       <Typography sx={{ color: "#ac4e7a", mb: 1, fontWeight: 600, display: "flex", alignItems: "center", gap: 1 }}>
@@ -444,7 +463,6 @@ function BabyDashboard() {
                         )}
                       </Box>
                       
-                      {/* Progress Bar */}
                       {vaccinesDueByAge.length > 0 && (
                         <Box>
                           <Box sx={{ display: "flex", justifyContent: "space-between", mb: 0.5 }}>
@@ -478,7 +496,7 @@ function BabyDashboard() {
           </Paper>
         </Fade>
 
-        {/* Weekly Growth Table - Shows last 7 days data */}
+        {/* Weekly Growth Table */}
         {logs.length > 0 && (
           <Fade in timeout={1400}>
             <Paper
@@ -505,10 +523,9 @@ function BabyDashboard() {
                   gap: 1,
                 }}
               >
-                <ShowChart sx={{ color: "#ff9eb5" }} /> Weekly Growth Details
+                <ShowChart sx={{ color: "#ff9eb5" }} /> Recent Weekly Growth Details
               </Typography>
 
-              {/* Weekly Data Table */}
               <Paper sx={{ p: 2, bgcolor: "white", borderRadius: 2, mb: 3 }}>
                 <Grid container spacing={2} sx={{ mb: 2 }}>
                   <Grid size={{ xs: 3 }}>
@@ -560,7 +577,6 @@ function BabyDashboard() {
                 ))}
               </Paper>
 
-              {/* Stats Summary */}
               <Grid container spacing={2}>
                 <Grid size={{ xs: 6, md: 3 }}>
                   <Paper sx={{ p: 2, bgcolor: "white", borderRadius: 2, textAlign: "center" }}>
@@ -599,7 +615,6 @@ function BabyDashboard() {
           </Fade>
         )}
 
-        {/* Add Log CTA - Reduced border radius */}
         <Fade in timeout={1600}>
           <Paper
             elevation={0}
@@ -622,7 +637,6 @@ function BabyDashboard() {
             >
               Add Today's Baby Log
             </Typography>
-
             <Button
               variant="contained"
               sx={{
@@ -646,11 +660,10 @@ function BabyDashboard() {
           </Paper>
         </Fade>
 
-        {/* Mother Dashboard Link */}
         <Fade in timeout={1800}>
           <Box sx={{ textAlign: "center", mt: 3 }}>
             <Button
-              onClick={() => navigate("/mother")}
+              onClick={() => navigate("/api/mother")}
               sx={{ 
                 color: "#8b6b7a",
                 "&:hover": { color: "#ac4e7a", transform: "scale(1.05)" },
@@ -663,7 +676,6 @@ function BabyDashboard() {
         </Fade>
       </Box>
 
-      {/* Styles */}
       <style>
         {`
           @keyframes pulse {
@@ -683,14 +695,13 @@ function BabyDashboard() {
   );
 }
 
-// Reusable Glass Card Component - Centrally aligned
 function GlassCard({ icon, color, label, value }) {
   return (
     <Paper
       elevation={0}
       sx={{
         p: 2.5,
-        borderRadius: 2, // Reduced from 3 to 2
+        borderRadius: 2,
         bgcolor: "rgba(255,255,255,0.6)",
         backdropFilter: "blur(10px)",
         border: "1px solid rgba(255,158,181,0.2)",
@@ -698,9 +709,9 @@ function GlassCard({ icon, color, label, value }) {
         height: "100%",
         display: "flex",
         flexDirection: "column",
-        alignItems: "center", // Center horizontally
-        justifyContent: "center", // Center vertically
-        textAlign: "center", // Center text
+        alignItems: "center",
+        justifyContent: "center",
+        textAlign: "center",
         "&:hover": {
           transform: "translateY(-5px)",
           bgcolor: "rgba(255,255,255,0.8)",
@@ -727,7 +738,6 @@ function GlassCard({ icon, color, label, value }) {
   );
 }
 
-// Helper function for floating elements
 const floatingElement = (emoji, left, top, duration) => ({
   position: "absolute",
   left: left,

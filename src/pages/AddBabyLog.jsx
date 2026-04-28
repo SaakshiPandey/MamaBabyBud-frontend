@@ -84,7 +84,7 @@ function AddBabyLog() {
       
       console.log("Sending payload:", payload);
       
-      const response = await API.post("/baby/add", payload);
+      const response = await API.post("/api/baby/add", payload);
       console.log("Response:", response);
       
       // Show success message briefly before navigating
@@ -92,7 +92,7 @@ function AddBabyLog() {
       
       // Navigate back to dashboard after successful save
       setTimeout(() => {
-        navigate("/baby");
+        navigate("/api/baby");
       }, 1000);
       
     } catch (error) {
@@ -202,7 +202,7 @@ function AddBabyLog() {
     >
       {/* Back Button */}
       <IconButton
-        onClick={() => navigate("/baby")}
+        onClick={() => navigate("/api/baby")}
         sx={{
           position: "fixed",
           top: { xs: '90px', md: '100px' },

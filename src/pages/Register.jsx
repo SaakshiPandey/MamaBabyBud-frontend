@@ -96,7 +96,7 @@ function Register() {
 
     try {
       // Send data exactly as per schema
-      const response = await API.post("/auth/register", {
+      const response = await API.post("/api/auth/register", {
         name: formData.name.trim(),
         email: formData.email.toLowerCase().trim(),
         phone: formData.phone,

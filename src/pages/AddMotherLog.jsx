@@ -80,7 +80,7 @@ function AddMotherLog() {
       
       console.log("Sending payload:", payload);
       
-      const response = await API.post("/mother/add", payload);
+      const response = await API.post("/api/mother/add", payload);
       console.log("Response:", response);
       
       // Show success message briefly before navigating
@@ -88,7 +88,7 @@ function AddMotherLog() {
       
       // Navigate back to dashboard after successful save (with slight delay to show success)
       setTimeout(() => {
-        navigate("/mother");
+        navigate("/api/mother");
       }, 1000);
       
     } catch (error) {
@@ -111,7 +111,7 @@ function AddMotherLog() {
     >
       {/* Back Button */}
       <IconButton
-        onClick={() => navigate("/mother")}
+        onClick={() => navigate("/api/mother")}
         sx={{
           position: "fixed",
           top: { xs: '90px', md: '100px' },
